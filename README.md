@@ -11,9 +11,9 @@ $ npm i dxfom/mtext
 ## Usage
 
 ```javascript
-const { parseMTextContent } = require('@dxfom/mtext')
+const { parseDxfMTextContent } = require('@dxfom/mtext')
 
-const content = parseMTextContent(
+const content = parseDxfMTextContent(
   String.raw`\A1;\fAIGDT|b0|i0;\H2.5000;\ln\fArial|b0|i0;\H2.5000;68{\H1.3;\S+0,8^+0,1;}`
 )
 console.log(JSON.stringify(content, undefined, 4))

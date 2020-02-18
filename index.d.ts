@@ -1,10 +1,10 @@
 // https://adndevblog.typepad.com/autocad/2017/09/dissecting-mtext-format-codes.html
 // https://www.cadforum.cz/cadforum_en/text-formatting-codes-in-mtext-objects-tip8640
 
-export const parseMTextContent: (s: string) => MTextContentElement[]
+export const parseDxfMTextContent: (s: string) => DxfMTextContentElement[]
 
-export type MTextContentElement =
-  | MTextContentElement[]
+export type DxfMTextContentElement =
+  | DxfMTextContentElement[]
   | string
   | {
       /** font family */

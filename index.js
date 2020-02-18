@@ -1,3 +1,3 @@
 module.exports = {
-  parseMTextContent: require('./mtext').parse,
+  parseDxfMTextContent: require('./mtext').parse,
 }
