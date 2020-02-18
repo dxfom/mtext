@@ -1,0 +1,19 @@
+{
+  "name": "@dxfom/mtext",
+  "version": "0.0.0",
+  "description": "A low level DXF MTEXT content parser.",
+  "private": true,
+  "license": "UNLICENSED",
+  "repository": "dxfom/mtext",
+  "keywords": [
+    "dxf"
+  ],
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "pegjs mtext.pegjs"
+  },
+  "devDependencies": {
+    "pegjs": "^0.10.0"
+  }
+}
