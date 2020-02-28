@@ -8,12 +8,14 @@
   "keywords": [
     "dxf"
   ],
-  "main": "index.js",
+  "main": "index.mjs",
   "types": "index.d.ts",
   "scripts": {
-    "build": "pegjs mtext.pegjs"
+    "build": "node build.mjs"
   },
   "devDependencies": {
+    "acorn": "^7.1.0",
+    "cjs-es": "^0.8.2",
     "pegjs": "^0.10.0"
   }
 }
