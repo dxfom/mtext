@@ -21,7 +21,8 @@ export const parseDxfMTextContent = (s) => {
                     default:
                         currentText += c;
                         break;
-                    case 'f': {
+                    case 'f':
+                    case 'F': {
                         let f = '';
                         while (c = s[++i]) {
                             if (c === ';') {
