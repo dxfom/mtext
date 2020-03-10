@@ -67,9 +67,13 @@ export const parseDxfMTextContent = (s) => {
                         }
                         break;
                     }
-                    case 'Q':
                     case 'H':
                     case 'W':
+                        const start = ++i;
+                        const [, value, unit] = s.slice(start, i = s.indexOf(';', i)).match(/^(\d*(?:\.\d+)?)(\D*)$/);
+                        pushContent({ [c]: [+value, unit] });
+                        break;
+                    case 'Q':
                     case 'A':
                     case 'C':
                     case 'T': {
@@ -91,14 +95,21 @@ export const parseDxfMTextContent = (s) => {
                 break;
             }
             case '{': {
-                const start = ++i;
-                while (c = s[i]) {
-                    if (c === '}') {
-                        pushContent(parseDxfMTextContent(s.slice(start, i)));
-                        break;
+                let depth = 1;
+                const start = i;
+                while (c = s[++i]) {
+                    if (c === '{') {
+                        depth++;
                     }
-                    c === '\\' && i++;
-                    i++;
+                    else if (c === '}') {
+                        if (--depth === 0) {
+                            pushContent(parseDxfMTextContent(s.slice(start + 1, i)));
+                            break;
+                        }
+                    }
+                    else if (c === '\\') {
+                        i++;
+                    }
                 }
                 break;
             }

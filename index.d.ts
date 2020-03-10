@@ -11,10 +11,10 @@ export declare type DxfMTextContentElement = DxfMTextContentElement[] | string |
     p?: number;
     /** angle in degrees */
     Q?: number;
-    /** character height */
-    H?: number;
-    /** character width */
-    W?: number;
+    /** character height (with unit) */
+    H?: [number, string];
+    /** character width (with unit) */
+    W?: [number, string];
     /** stacking */
     S?: [string, '^' | '/' | '#', string];
     /** alignment (0: bottom, 1: center, 2: top) */

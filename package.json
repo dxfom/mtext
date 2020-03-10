@@ -11,9 +11,11 @@
   "main": "index.mjs",
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc -p . && node -e \"require('fs').promises.rename('index.js','index.mjs')\""
+    "build": "tsc -p . && node -e \"require('fs').promises.rename('index.js','index.mjs')\"",
+    "test": "npm run build && node index.spec.mjs"
   },
   "devDependencies": {
+    "baretest": "^1.0.0",
     "typescript": "^3.8.3"
   }
 }

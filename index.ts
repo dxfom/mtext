@@ -19,11 +19,11 @@ export type DxfMTextContentElement =
       /** angle in degrees */
       Q?: number
 
-      /** character height */
-      H?: number
+      /** character height (with unit) */
+      H?: [number, string]
 
-      /** character width */
-      W?: number
+      /** character width (with unit) */
+      W?: [number, string]
 
       /** stacking */
       S?: [string, '^' | '/' | '#', string]
@@ -109,9 +109,13 @@ export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
             }
             break
           }
-          case 'Q':
           case 'H':
           case 'W':
+            const start = ++i
+            const [, value, unit] = s.slice(start, i = s.indexOf(';', i)).match(/^(\d*(?:\.\d+)?)(\D*)$/)!
+            pushContent({ [c]: [+value, unit] })
+            break
+          case 'Q':
           case 'A':
           case 'C':
           case 'T': {
@@ -133,14 +137,19 @@ export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
         break
       }
       case '{': {
-        const start = ++i
-        while (c = s[i]) {
-          if (c === '}') {
-            pushContent(parseDxfMTextContent(s.slice(start, i)))
-            break
+        let depth = 1
+        const start = i
+        while (c = s[++i]) {
+          if (c === '{') {
+            depth++
+          } else if (c === '}') {
+            if (--depth === 0) {
+              pushContent(parseDxfMTextContent(s.slice(start + 1, i)))
+              break
+            }
+          } else if (c === '\\') {
+            i++
           }
-          c === '\\' && i++
-          i++
         }
         break
       }
