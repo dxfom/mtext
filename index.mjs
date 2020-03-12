@@ -1,6 +1,12 @@
 // https://adndevblog.typepad.com/autocad/2017/09/dissecting-mtext-format-codes.html
 // https://www.cadforum.cz/cadforum_en/text-formatting-codes-in-mtext-objects-tip8640
+const dxfTextControlCodeSymbolMap = {
+    d: '°',
+    c: '⌀',
+    p: '±',
+};
 export const parseDxfMTextContent = (s) => {
+    s = s.replace(/%%(.)/g, (_, c) => dxfTextControlCodeSymbolMap[c] || c);
     const contents = [];
     let currentText = '';
     const pushContent = (content) => {
