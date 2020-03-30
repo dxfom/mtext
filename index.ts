@@ -73,6 +73,9 @@ export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
           default:
             currentText += c
             break
+          case 'P':
+            currentText += '\n'
+            break
           case 'f':
           case 'F': {
             let f = ''
