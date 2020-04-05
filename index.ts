@@ -53,8 +53,9 @@ const dxfTextControlCodeSymbolMap: { [c in string]?: string } = {
 
 export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
   s = s.replace(/%%(.)/g, (_, c) => dxfTextControlCodeSymbolMap[c] || c)
-  const contents: DxfMTextContentElement[] = []
   let currentText = ''
+  let c
+  const contents: DxfMTextContentElement[] = []
   const pushContent = (content: DxfMTextContentElement) => {
     if (currentText) {
       contents.push(currentText)
@@ -62,7 +63,6 @@ export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
     }
     contents.push(content)
   }
-  let c
   for (let i = 0; i < s.length; i++) {
     switch (c = s[i]) {
       default:

@@ -1,129 +1,31 @@
-// https://adndevblog.typepad.com/autocad/2017/09/dissecting-mtext-format-codes.html
-// https://www.cadforum.cz/cadforum_en/text-formatting-codes-in-mtext-objects-tip8640
-const dxfTextControlCodeSymbolMap = {
-    d: '°',
-    c: '⌀',
-    p: '±',
-};
-export const parseDxfMTextContent = (s) => {
-    s = s.replace(/%%(.)/g, (_, c) => dxfTextControlCodeSymbolMap[c] || c);
-    const contents = [];
-    let currentText = '';
-    const pushContent = (content) => {
-        if (currentText) {
-            contents.push(currentText);
-            currentText = '';
-        }
-        contents.push(content);
-    };
-    let c;
-    for (let i = 0; i < s.length; i++) {
-        switch (c = s[i]) {
-            default:
-                currentText += c;
-                break;
-            case '\\': {
-                switch (c = s[++i]) {
-                    default:
-                        currentText += c;
-                        break;
-                    case 'P':
-                        currentText += '\n';
-                        break;
-                    case 'f':
-                    case 'F': {
-                        let f = '';
-                        while (c = s[++i]) {
-                            if (c === ';') {
-                                pushContent({ f });
-                                break;
-                            }
-                            if (c === '|') {
-                                const content = { f };
-                                const end = s.indexOf(';', ++i);
-                                for (const element of s.slice(i, end).split('|')) {
-                                    content[element[0]] = +element.slice(1);
-                                }
-                                i = end;
-                                pushContent(content);
-                                break;
-                            }
-                            f += c === '\\' ? s[++i] : c;
-                        }
-                        break;
-                    }
-                    case 'S': {
-                        let upper = '';
-                        let op;
-                        let lower = '';
-                        while (c = s[++i]) {
-                            if (c === ';') {
-                                op && pushContent({ S: [upper, op, lower] });
-                                break;
-                            }
-                            if (c === '\\') {
-                                op ? lower += s[++i] : upper += s[++i];
-                            }
-                            else if (op) {
-                                lower += c;
-                            }
-                            else if (c === '^' || c === '/' || c === '#') {
-                                op = c;
-                            }
-                            else {
-                                upper += c;
-                            }
-                        }
-                        break;
-                    }
-                    case 'H':
-                    case 'W':
-                        const start = ++i;
-                        const [, value, unit] = s.slice(start, i = s.indexOf(';', i)).match(/^(\d*(?:\.\d+)?)(\D*)$/);
-                        pushContent({ [c]: [+value, unit] });
-                        break;
-                    case 'Q':
-                    case 'A':
-                    case 'C':
-                    case 'T': {
-                        const start = ++i;
-                        pushContent({ [c]: +s.slice(start, i = s.indexOf(';', i)) });
-                        break;
-                    }
-                    case 'L':
-                    case 'O':
-                    case 'K':
-                        pushContent({ [c]: 1 });
-                        break;
-                    case 'l':
-                    case 'o':
-                    case 'k':
-                        pushContent({ [c.toUpperCase()]: 0 });
-                        break;
-                }
-                break;
-            }
-            case '{': {
-                let depth = 1;
-                const start = i;
-                while (c = s[++i]) {
-                    if (c === '{') {
-                        depth++;
-                    }
-                    else if (c === '}') {
-                        if (--depth === 0) {
-                            pushContent(parseDxfMTextContent(s.slice(start + 1, i)));
-                            break;
-                        }
-                    }
-                    else if (c === '\\') {
-                        i++;
-                    }
-                }
-                break;
-            }
-        }
-    }
-    currentText && contents.push(currentText);
-    return contents;
-};
+const e={d:"°",c:"⌀",p:"±"}
+export const parseDxfMTextContent=s=>{s=s.replace(/%%(.)/g,(s,a)=>e[a]||a)
+let a,c=""
+const t=[],r=e=>{c&&(t.push(c),c=""),t.push(e)}
+for(let e=0;e<s.length;e++)switch(a=s[e]){default:c+=a
+break
+case"\\":switch(a=s[++e]){default:c+=a
+break
+case"P":c+="\n"
+break
+case"f":case"F":{let c=""
+for(;a=s[++e];){if(";"===a){r({f:c})
+break}if("|"===a){const a={f:c},t=s.indexOf(";",++e)
+for(const c of s.slice(e,t).split("|"))a[c[0]]=+c.slice(1)
+e=t,r(a)
+break}c+="\\"===a?s[++e]:a}break}case"S":{let c,t="",f=""
+for(;a=s[++e];){if(";"===a){c&&r({S:[t,c,f]})
+break}"\\"===a?c?f+=s[++e]:t+=s[++e]:c?f+=a:"^"===a||"/"===a||"#"===a?c=a:t+=a}break}case"H":case"W":const t=++e,[,f,o]=s.slice(t,e=s.indexOf(";",e)).match(/^(\d*(?:\.\d+)?)(\D*)$/)
+r({[a]:[+f,o]})
+break
+case"Q":case"A":case"C":case"T":{const c=++e
+r({[a]:+s.slice(c,e=s.indexOf(";",e))})
+break}case"L":case"O":case"K":r({[a]:1})
+break
+case"l":case"o":case"k":r({[a.toUpperCase()]:0})}break
+case"{":{let c=1
+const t=e
+for(;a=s[++e];)if("{"===a)c++
+else if("}"===a){if(0==--c){r(parseDxfMTextContent(s.slice(t+1,e)))
+break}}else"\\"===a&&e++
+break}}return c&&t.push(c),t}

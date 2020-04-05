@@ -11,11 +11,12 @@
   "main": "index.mjs",
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc -p . && node -e \"require('fs').promises.rename('index.js','index.mjs')\"",
+    "build": "tsc -p . && terser -c -m --toplevel -b beautify=false,semicolons=false --warn -o index.mjs index.js",
     "test": "npm run build && node index.spec.mjs"
   },
   "devDependencies": {
     "baretest": "^1.0.0",
+    "terser": "^4.6.10",
     "typescript": "^3.8.3"
   }
 }
