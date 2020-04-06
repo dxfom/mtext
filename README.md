@@ -5,7 +5,7 @@ A low level DXF MTEXT content parser.
 ## Installation
 
 ```bash
-$ npm i dxfom/mtext
+$ npm i @dxfom/mtext
 ```
 
 ## Usage
