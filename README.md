@@ -64,4 +64,4 @@ outputs:
 
 ## License
 
-Undecided yet.
+GPL 3.0

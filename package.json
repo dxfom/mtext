@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A low level DXF MTEXT content parser.",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "GPL-3.0",
   "repository": "dxfom/mtext",
   "keywords": [
     "dxf"
