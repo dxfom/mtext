@@ -25,9 +25,9 @@ break}case"L":case"O":case"K":f({[r]:1})
 break
 case"l":case"o":case"k":f({[r.toUpperCase()]:0})
 break
-case"U":"+"===s[e+1]?(n+=String.fromCodePoint(parseInt(s.substr(e+2,4),16)),e+=5):n+="U"
+case"U":case"u":"+"===s[e+1]?(n+=String.fromCodePoint(parseInt(s.substr(e+2,4),16)),e+=5):n+=r
 break
-case"M":c?"+"===s[e+1]&&"1"===s[e+2]?(n+=(t=t||new TextDecoder(c)).decode(new Uint8Array([parseInt(s.substr(e+3,2),16),parseInt(s.substr(e+5,2),16)])),e+=6):n+="M":n+="\\M"}break
+case"M":case"m":c?"+"===s[e+1]&&"1"===s[e+2]?(n+=(t=t||new TextDecoder(c)).decode(new Uint8Array([parseInt(s.substr(e+3,2),16),parseInt(s.substr(e+5,2),16)])),e+=6):n+=r:n+="\\"+r}break
 case"{":{let a=1
 const c=e
 for(;r=s[++e];)if("{"===r)a++

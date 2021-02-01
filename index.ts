@@ -146,14 +146,16 @@ export const parseDxfMTextContent = (s: string, options?: { readonly encoding?: 
             pushContent({ [c.toUpperCase()]: 0 })
             break
           case 'U':
+          case 'u':
             if (s[i + 1] === '+') {
               currentText += String.fromCodePoint(parseInt(s.substr(i + 2, 4), 16))
               i += 5
             } else {
-              currentText += 'U'
+              currentText += c
             }
             break
           case 'M':
+          case 'm':
             if (encoding) {
               if (s[i + 1] === '+' && s[i + 2] === '1') {
                 currentText += (decoder = decoder || new TextDecoder(encoding)).decode(new Uint8Array([
@@ -162,10 +164,10 @@ export const parseDxfMTextContent = (s: string, options?: { readonly encoding?: 
                 ]))
                 i += 6
               } else {
-                currentText += 'M'
+                currentText += c
               }
             } else {
-              currentText += '\\M'
+              currentText += '\\' + c
             }
             break
         }
