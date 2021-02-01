@@ -143,6 +143,14 @@ export const parseDxfMTextContent = (s: string): DxfMTextContentElement[] => {
           case 'k':
             pushContent({ [c.toUpperCase()]: 0 })
             break
+          case 'U':
+            if (s[i + 1] === '+') {
+              currentText += String.fromCodePoint(parseInt(s.substr(i + 2, 4), 16))
+              i += 5
+            } else {
+              currentText += 'U'
+            }
+            break
         }
         break
       }

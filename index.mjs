@@ -1,5 +1,5 @@
 const e={d:"°",c:"⌀",p:"±"}
-export const parseDxfMTextContent=s=>{s=s.replace(/%%(.)/g,(s,a)=>e[a]||a)
+export const parseDxfMTextContent=s=>{s=s.replace(/%%(.)/g,((s,a)=>e[a]||a))
 let a,c=""
 const t=[],r=e=>{c&&(t.push(c),c=""),t.push(e)}
 for(let e=0;e<s.length;e++)switch(a=s[e]){default:c+=a
@@ -22,7 +22,9 @@ case"Q":case"A":case"C":case"T":{const c=++e
 r({[a]:+s.slice(c,e=s.indexOf(";",e))})
 break}case"L":case"O":case"K":r({[a]:1})
 break
-case"l":case"o":case"k":r({[a.toUpperCase()]:0})}break
+case"l":case"o":case"k":r({[a.toUpperCase()]:0})
+break
+case"U":"+"===s[e+1]?(c+=String.fromCodePoint(parseInt(s.substr(e+2,4),16)),e+=5):c+="U"}break
 case"{":{let c=1
 const t=e
 for(;a=s[++e];)if("{"===a)c++
