@@ -1,6 +1,6 @@
 {
   "name": "@dxfom/mtext",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A low level DXF MTEXT content parser.",
   "license": "GPL-3.0",
   "repository": "dxfom/mtext",
@@ -14,8 +14,8 @@
     "test": "npm run build && node index.spec.mjs"
   },
   "devDependencies": {
-    "baretest": "^1.0.0",
-    "terser": "^4.6.10",
-    "typescript": "^3.8.3"
+    "baretest": "^2.0.0",
+    "terser": "^5.5.1",
+    "typescript": "^4.1.3"
   }
 }
