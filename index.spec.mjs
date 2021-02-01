@@ -4,7 +4,7 @@ import baretest from 'baretest'
 
 const test = baretest('parseDxfMTextContent')
 const r = String.raw
-const t = (s, expect) => test(s, () => deepStrictEqual(parseDxfMTextContent(s), expect))
+const t = (s, expect, options) => test(s, () => deepStrictEqual(parseDxfMTextContent(s, options), expect))
 
 t(
     r`{}{\A0;{\H1.0x;}{\A2;\H0.71x;\C41;0.005}}`,
@@ -12,8 +12,14 @@ t(
 )
 
 t(
-    r`\U+5E451\U+3001\U+6DF12`,
-    ['幅1、深2']
+    r`\U+5E451\U+3001\U+6DF12\M+1815C\M+18F5C`,
+    [r`幅1、深2\M+1815C\M+18F5C`]
+)
+
+t(
+    r`\U+5E451\U+3001\U+6DF12\M+1815C\M+18F5C`,
+    ['幅1、深2―十'],
+    { encoding: 'ms932' }
 )
 
 test.run()

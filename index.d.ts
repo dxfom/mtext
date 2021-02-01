@@ -30,4 +30,6 @@ export declare type DxfMTextContentElement = DxfMTextContentElement[] | string |
     /** strike through */
     K?: 0 | 1;
 };
-export declare const parseDxfMTextContent: (s: string) => DxfMTextContentElement[];
+export declare const parseDxfMTextContent: (s: string, options?: {
+    readonly encoding?: string | undefined;
+} | undefined) => DxfMTextContentElement[];
