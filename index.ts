@@ -51,10 +51,10 @@ const dxfTextControlCodeSymbolMap: { [c in string]?: string } = {
   p: '±',
 }
 
-export const parseDxfMTextContent = (s: string, options?: { readonly encoding?: string }): DxfMTextContentElement[] => {
+export const parseDxfMTextContent = (s: string, options?: { readonly encoding?: string | TextDecoder }): DxfMTextContentElement[] => {
   s = s.replace(/%%(.)/g, (_, c) => dxfTextControlCodeSymbolMap[c] || c)
   const encoding = options?.encoding
-  let decoder: TextDecoder | undefined
+  let decoder = encoding instanceof TextDecoder ? encoding : undefined
   let currentText = ''
   let c: string
   const contents: DxfMTextContentElement[] = []
@@ -158,7 +158,7 @@ export const parseDxfMTextContent = (s: string, options?: { readonly encoding?: 
           case 'm':
             if (encoding) {
               if (s[i + 1] === '+' && s[i + 2] === '1') {
-                currentText += (decoder = decoder || new TextDecoder(encoding)).decode(new Uint8Array([
+                currentText += (decoder = decoder || new TextDecoder(encoding as string)).decode(new Uint8Array([
                   parseInt(s.substr(i + 3, 2), 16),
                   parseInt(s.substr(i + 5, 2), 16),
                 ]))
