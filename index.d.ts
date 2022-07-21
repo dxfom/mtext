@@ -31,5 +31,5 @@ export declare type DxfMTextContentElement = DxfMTextContentElement[] | string |
     K?: 0 | 1;
 };
 export declare const parseDxfMTextContent: (s: string, options?: {
-    readonly encoding?: string | TextDecoder | undefined;
-} | undefined) => DxfMTextContentElement[];
+    readonly encoding?: string | TextDecoder;
+}) => DxfMTextContentElement[];

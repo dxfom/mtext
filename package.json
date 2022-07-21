@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "baretest": "^2.0.0",
-    "terser": "^5.5.1",
-    "typescript": "^4.1.3"
+    "terser": "^5.14.2",
+    "typescript": "^4.7.4"
   }
 }
