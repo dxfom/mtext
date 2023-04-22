@@ -1,4 +1,4 @@
-export declare type DxfMTextContentElement = DxfMTextContentElement[] | string | {
+export type DxfMTextContentElement = DxfMTextContentElement[] | string | {
     /** font family */
     f?: string;
     /** bold */

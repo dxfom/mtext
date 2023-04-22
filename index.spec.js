@@ -1,10 +1,9 @@
-import { parseDxfMTextContent } from './index.mjs'
-import { deepStrictEqual } from 'assert'
-import baretest from 'baretest'
+import { deepStrictEqual } from 'node:assert'
+import { it } from 'node:test'
+import { parseDxfMTextContent } from './index.js'
 
-const test = baretest('parseDxfMTextContent')
 const r = String.raw
-const t = (s, expect, options) => test(s, () => deepStrictEqual(parseDxfMTextContent(s, options), expect))
+const t = (s, expect, options) => it(s, () => deepStrictEqual(parseDxfMTextContent(s, options), expect))
 
 t(
     r`{}{\A0;{\H1.0x;}{\A2;\H0.71x;\C41;0.005}}`,
@@ -25,5 +24,3 @@ t(
     ['幅1、深2―十'],
     { encoding: new TextDecoder('ms932') }
 )
-
-test.run()
